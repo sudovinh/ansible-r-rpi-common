@@ -1,0 +1,41 @@
+---
+- name: Update apt cache and upgrade
+  apt:
+    update_cache: yes
+    upgrade: yes
+
+- name: Remove useless packages from the cache
+  apt:
+    autoclean: yes
+
+- name: Remove dependencies that are no longer required
+  apt:
+    autoremove: yes
+
+# Install required packages
+- name: install packages for Raspberry Pi
+  apt:
+    name: "{{ packages }}"
+    state: present
+    update_cache: yes
+  vars:
+    packages:
+      - python-pip
+
+# Uninstall Raspbian bloat
+- name: remove raspbian bloat
+  apt:
+    name: "{{ packages }}"
+    state: absent
+  vars:
+    packages:
+      - wolfram-engine
+      - libreoffice*
+      - scratch
+      - minecraft-pi
+      - python-minecraftpi 
+      - python3-minecraftpi
+      - sonic-pi
+      - dillo
+      - gpicview
+      - penguinspuzzle

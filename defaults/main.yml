@@ -1,0 +1,9 @@
+---
+# defaults file for ansible-r-rpi-common
+required_packages:
+  - vim
+  - screen
+  - git
+  - ufw
+
+country_locale: "en_US.UTF-8"
