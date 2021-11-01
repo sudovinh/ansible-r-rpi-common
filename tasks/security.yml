@@ -11,22 +11,22 @@
   tags:
     - security
 
-- name: allow mDNS through UFW
-  ufw:
-    rule: allow
-    to_ip: 224.0.0.251
-    proto: igmp
-    log: no
-  tags:
-    - security
+# - name: allow mDNS through UFW
+#   ufw:
+#     rule: allow
+#     to_ip: 224.0.0.251
+#     proto: igmp
+#     log: no
+#   tags:
+#     - security
 
-- name: drop multicast without logging
-  ufw:
-    rule: deny
-    to_ip: 224.0.0.1
-    log: no
-  tags:
-    - security
+# - name: drop multicast without logging
+#   ufw:
+#     rule: deny
+#     to_ip: 224.0.0.1
+#     log: no
+#   tags:
+#     - security
 
 - name: set default incoming UFW policy to deny
   ufw:
