@@ -11,11 +11,11 @@
 #  command: "/bin/true"
 #  changed_when: false
 
-- name: import user configs
-  include_vars:
-    file: vars/users.yml
-  tags:
-    - users
+# - name: import user configs
+#   include_vars:
+#     file: vars/users.yml
+#   tags:
+#     - users
 
 ### Create user accounts
 - name: create users
@@ -27,6 +27,7 @@
         state=present
         shell=/bin/bash
   with_items: "{{ create_users }}"
+  when: create_users is defined
   tags: [ 'users' ]
 
 - name: install ssh pubkeys for new users
@@ -34,6 +35,7 @@
                   key="{{ item.pubkey }}"
                   state=present
   with_items: "{{ create_users }}"
+  when: create_users is defined
   tags: [ 'users' ]
 
 ### disable the 'pi' user's ability to login in with password
