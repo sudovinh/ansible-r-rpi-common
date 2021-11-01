@@ -1,0 +1,16 @@
+---
+- name: Load Raspberry Pi Hardware history
+  include_vars:
+    file: vars/raspi-models.yml
+  tags:
+    - motd
+
+- name: Install motd
+  template: 
+    src: motd
+    dest: /etc/motd
+    owner: root
+    group: root
+    mode: "0644"
+  tags:
+    - motd 

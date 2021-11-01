@@ -1,0 +1,11 @@
+galaxy_info:
+  author: Vinh Nguyen
+  description: Basic common setup for Raspberry Pis
+  company: sudovinh
+  license: MIT
+  min_ansible_version: 2.4
+  galaxy_tags:
+    - raspberrypi
+    - ansible-r-rpi-common
+    - rasp
+dependencies: []
