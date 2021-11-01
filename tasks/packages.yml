@@ -14,13 +14,11 @@
 
 # Install required packages
 - name: install packages for Raspberry Pi
-  apt:
-    name: "{{ packages }}"
+  become: true
+  package:
+    name: "{{ item }}"
     state: present
-    update_cache: yes
-  vars:
-    packages:
-      - python-pip
+  with_items: "{{ required_packages }}"
 
 # Uninstall Raspbian bloat
 - name: remove raspbian bloat

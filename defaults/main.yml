@@ -1,6 +1,7 @@
 ---
 # defaults file for ansible-r-rpi-common
 required_packages:
+  - python-pip
   - vim
   - screen
   - git
