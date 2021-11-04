@@ -8,3 +8,38 @@ required_packages:
   - ufw
 
 country_locale: "en_US.UTF-8"
+
+# The default shell for a user if none is specified
+users_default_shell: /bin/bash
+# Create home dirs for new users? Set this to false if you manage home
+# directories in some other way.
+users_create_homedirs: yes
+# Create parent home directory and put home dirs here
+users_default_home: '/user'
+# Create groups for users with the same name as the users group
+users_per_user_groups: yes
+# If true, create a sudoers entry for the admin group allow root access.
+users_manage_admin_sudoers: yes
+# If true, assume the admin group is also used to run Ansible jobs. This
+# disables requiretty for the admin group
+users_admin_uses_ansible: yes
+# If set to true, require a password for sudo, false to not require a password
+users_admin_sudo_password: false
+
+users_admin_group: sudo
+users_default_password: '!'
+
+# Lists of users to create and delete
+users: []
+users_groups_to_remove: []
+user_ssh_keys: []
+
+# if this list is defined, then it will need to have elements similar to users, including name, comment, is_admin and ssh_key
+additionalusers: []
+
+# if this list is defined, then it expects just a list of names. i.e:
+# removed_users:
+#   - some_username
+#   - some_other_username
+removed_users: []
+users_groups: []
