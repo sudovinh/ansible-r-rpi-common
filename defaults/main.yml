@@ -6,6 +6,13 @@ required_packages:
   - screen
   - git
   - ufw
+  - apt-transport-https
+  - ca-certificates
+  - curl
+  - gnupg-agent
+  - software-properties-common
+  - python3-pip
+  - python3-setuptools
 
 country_locale: "en_US.UTF-8"
 
@@ -25,18 +32,14 @@ users_manage_admin_sudoers: yes
 users_admin_uses_ansible: yes
 # If set to true, require a password for sudo, false to not require a password
 users_admin_sudo_password: false
-
 users_admin_group: sudo
 users_default_password: '!'
-
 # Lists of users to create and delete
 users: []
 users_groups_to_remove: []
 user_ssh_keys: []
-
 # if this list is defined, then it will need to have elements similar to users, including name, comment, is_admin and ssh_key
 additionalusers: []
-
 # if this list is defined, then it expects just a list of names. i.e:
 # removed_users:
 #   - some_username
