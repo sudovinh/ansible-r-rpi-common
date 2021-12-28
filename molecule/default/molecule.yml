@@ -3,11 +3,18 @@ dependency:
   name: galaxy
 driver:
   name: docker
+lint: 'set -e
+  yamllint .
+  '
 platforms:
   - name: instance
     image: balenalib/raspberry-pi-debian:latest
     pre_build_image: true
 provisioner:
   name: ansible
+  # lint:
+  #   name: ansible-lint
 verifier:
-  name: ansible
+  name: testinfra
+  lint:
+    name: flake8

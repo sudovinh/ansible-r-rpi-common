@@ -1,7 +1,5 @@
 ---
 - name: Converge
   hosts: all
-  tasks:
-    - name: "Include ansible-r-rpi-common"
-      include_role:
-        name: "ansible-r-rpi-common"
+  roles:
+    - role: ansible-r-rpi-common
