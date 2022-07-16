@@ -13,6 +13,8 @@ required_packages:
   - software-properties-common
   - python3-pip
   - python3-setuptools
+  - libffi-dev
+  - libssl-dev
 
 country_locale: "en_US.UTF-8"
 
