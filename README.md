@@ -5,7 +5,6 @@ Role for initial Raspberry Pi setup
 ### Requirements
 ------------
 - Ansible Core >= 2.11.12
-- Molecule >= 3.4.0
 
 ### Variables
 --------------
@@ -26,8 +25,7 @@ All variables which can be overridden are stored in [defaults/main.yml](defaults
 | `enable_serial_hw` | `false`  | enable serial hw |
 | `enable_onewire` | `false`  | enable onewire communication bus |
 | `enable_rgpio` | `false`  | enable general-purpose Input/Output pins |
-| `disable_pi_ssh_login` | `false`  | disable default pi ssh login (recommend to enable gui or have another user created before eanbling it) |
-
+| `disable_pi_ssh_login` | `false`  | disable default pi ssh login (recommend to enable gui or have another user created before enabling it) |
 | `users_default_shell` | `/bin/bash` | user's default shell |
 | `users_create_homedirs` | `yes` | Create home dirs for new user |
 | `users_default_home` | `/user` | Create parent home directory |
