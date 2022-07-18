@@ -27,11 +27,11 @@ All variables which can be overridden are stored in [defaults/main.yml](defaults
 | `enable_rgpio` | `false`  | enable general-purpose Input/Output pins |
 | `disable_pi_ssh_login` | `false`  | disable default pi ssh login (recommend to enable gui or have another user created before enabling it) |
 | `users_default_shell` | `/bin/bash` | user's default shell |
-| `users_create_homedirs` | `yes` | Create home dirs for new user |
+| `users_create_homedirs` | `false` | Create home dirs for new user |
 | `users_default_home` | `/user` | Create parent home directory |
-| `users_per_user_groups` | `yes` | Create groups for users with the same name as the users group |
-| `users_manage_admin_sudoers` | `yes` | If true, create a sudoers entry for the admin group allow root access. |
-| `users_admin_uses_ansible` | `yes` | If true, assume the admin group is also used to run Ansible jobs |
+| `users_per_user_groups` | `false` | Create groups for users with the same name as the users group |
+| `users_manage_admin_sudoers` | `false` | If true, create a sudoers entry for the admin group allow root access. |
+| `users_admin_uses_ansible` | `false` | If true, assume the admin group is also used to run Ansible jobs |
 | `users_admin_sudo_password` | `false` | If set to true, require a password for sudo, false to not require a password |
 | `users_admin_group` | `sudo` | users admin group |
 | `users_default_password` | `!` | user default password |
@@ -42,24 +42,24 @@ All variables which can be overridden are stored in [defaults/main.yml](defaults
 users:
 - username: rickmorty
   comment: rick morty
-  is_admin: yes
+  is_admin: true
   sshkey: {SSH PUB KEY}
   uid: 1024
   gid: 1024
 
-enable_gui: False
-enable_autologin: False
-enable_bootwait: True
-enable_bootsplash: False
-enable_camera: False
-enable_vnc: False
-enable_spi: False
-enable_i2c: False
-enable_serial: False
-enable_serial_hw: False
-enable_onewire: False
-enable_rgpio: False
-disable_pi_ssh_login: False
+enable_gui: false
+enable_autologin: false
+enable_bootwait: true
+enable_bootsplash: false
+enable_camera: false
+enable_vnc: false
+enable_spi: false
+enable_i2c: false
+enable_serial: false
+enable_serial_hw: false
+enable_onewire: false
+enable_rgpio: false
+disable_pi_ssh_login: false
 ```
 
 License
