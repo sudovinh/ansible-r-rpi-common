@@ -15,9 +15,22 @@ required_packages:
   - python3-setuptools
   - libffi-dev
   - libssl-dev
-
 country_locale: "en_US.UTF-8"
+enable_gui: false
+enable_autologin: false
+enable_bootwait: true
+enable_bootsplash: false
+enable_camera: false
+enable_vnc: false
+enable_spi: false
+enable_i2c: false
+enable_serial: false
+enable_serial_hw: false
+enable_onewire: false
+enable_rgpio: false
+disable_pi_ssh_login: false
 
+## Users variables
 # The default shell for a user if none is specified
 users_default_shell: /bin/bash
 # Create home dirs for new users? Set this to false if you manage home
