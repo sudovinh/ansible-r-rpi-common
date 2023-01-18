@@ -3,7 +3,7 @@
   shell: "raspi-config nonint get_pi_type"
   register: raspi_type
   changed_when: false
-  check_mode: no
+  check_mode: false
   tags:
     - pi_get_rasp_facts
 
@@ -11,7 +11,7 @@
   shell: "raspi-config nonint get_hostname"
   register: current_hostname
   changed_when: false
-  check_mode: no
+  check_mode: false
   tags:
     - pi_get_rasp_facts
 
@@ -20,7 +20,7 @@
   shell: "raspi-config nonint get_boot_cli"
   register: raspi_boot_gui
   changed_when: false
-  check_mode: no
+  check_mode: false
   tags:
     - pi_get_rasp_facts
 
@@ -29,25 +29,25 @@
   shell: "raspi-config nonint get_autologin"
   register: raspi_noautologin
   changed_when: false
-  check_mode: no
+  check_mode: false
   tags:
     - pi_get_rasp_facts
 
 # 0 == "wait"; 1 == "don't wait"
-- name: get wait-for-network-on-boot setting 
-  shell: "raspi-config nonint get_boot_wait" 
+- name: get wait-for-network-on-boot setting
+  shell: "raspi-config nonint get_boot_wait"
   register: raspi_boot_nowait
   changed_when: false
-  check_mode: no
+  check_mode: false
   tags:
     - pi_get_rasp_facts
 
 # 0 == "wait"; 1 == "don't wait"
-- name: get splash screen setting 
+- name: get splash screen setting
   shell: "raspi-config nonint get_boot_splash"
   register: raspi_boot_splash
   changed_when: false
-  check_mode: no
+  check_mode: false
   tags:
     - pi_get_rasp_facts
 
@@ -55,7 +55,7 @@
   shell: "raspi-config nonint get_wifi_country || echo unknown"
   register: raspi_wifi_country
   changed_when: false
-  check_mode: no
+  check_mode: false
   tags:
     - pi_get_rasp_facts
 
@@ -64,7 +64,7 @@
   shell: "raspi-config nonint get_camera"
   register: raspi_camera_disabled
   changed_when: false
-  check_mode: no
+  check_mode: false
   tags:
     - pi_get_rasp_facts
 
@@ -72,7 +72,7 @@
   shell: "raspi-config nonint get_ssh"
   register: raspi_ssh_disabled
   changed_when: false
-  check_mode: no
+  check_mode: false
   tags:
     - pi_get_rasp_facts
 
@@ -80,7 +80,7 @@
   shell: "raspi-config nonint get_vnc"
   register: raspi_vnc_disabled
   changed_when: false
-  check_mode: no
+  check_mode: false
   tags:
     - pi_get_rasp_facts
 
@@ -88,7 +88,7 @@
   shell: "raspi-config nonint get_spi"
   register: raspi_spi_disabled
   changed_when: false
-  check_mode: no
+  check_mode: false
   tags:
     - pi_get_rasp_facts
 
@@ -96,7 +96,7 @@
   shell: "raspi-config nonint get_i2c"
   register: raspi_i2c_disabled
   changed_when: false
-  check_mode: no
+  check_mode: false
   tags:
     - pi_get_rasp_facts
 
@@ -104,7 +104,7 @@
   shell: "raspi-config nonint get_serial"
   register: raspi_serial_disabled
   changed_when: false
-  check_mode: no
+  check_mode: false
   tags:
     - pi_get_rasp_facts
 
@@ -112,7 +112,7 @@
   shell: "raspi-config nonint get_serial_hw"
   register: raspi_serial_hw_disabled
   changed_when: false
-  check_mode: no
+  check_mode: false
   tags:
     - pi_get_rasp_facts
 
@@ -120,7 +120,7 @@
   shell: "raspi-config nonint get_onewire"
   register: raspi_onewire_disabled
   changed_when: false
-  check_mode: no
+  check_mode: false
   tags:
     - pi_get_rasp_facts
 
@@ -128,15 +128,15 @@
   shell: "raspi-config nonint get_rgpio"
   register: raspi_rgpio_disabled
   changed_when: false
-  check_mode: no
+  check_mode: false
   tags:
     - pi_get_rasp_facts
 
-- name: get overclock state 
+- name: get overclock state
   shell: "raspi-config nonint get_config_var arm_freq /boot/config.txt"
   register: raspi_overclock
   changed_when: false
-  check_mode: no
+  check_mode: false
   tags:
     - pi_get_rasp_facts
 
@@ -144,7 +144,7 @@
   shell: "raspi-config nonint get_can_expand"
   register: raspi_fs_unexpandable
   changed_when: false
-  check_mode: no
+  check_mode: false
   tags:
     - pi_get_rasp_facts
 
@@ -152,7 +152,7 @@
   shell: "raspi-config nonint get_overscan"
   register: raspi_overscan_enabled
   changed_when: false
-  check_mode: no
+  check_mode: false
   tags:
     - pi_get_rasp_facts
 
@@ -160,7 +160,7 @@
   shell: "raspi-config nonint get_config_var gpu_mem /boot/config.txt"
   register: raspi_gpu_mem
   changed_when: false
-  check_mode: no
+  check_mode: false
   tags:
     - pi_get_rasp_facts
 
@@ -168,7 +168,7 @@
   shell: "raspi-config nonint get_config_var gpu_mem_256 /boot/config.txt"
   register: raspi_gpu_mem_256
   changed_when: false
-  check_mode: no
+  check_mode: false
   tags:
     - pi_get_rasp_facts
 
@@ -176,7 +176,7 @@
   shell: "raspi-config nonint get_config_var gpu_mem_512 /boot/config.txt"
   register: raspi_gpu_mem_512
   changed_when: false
-  check_mode: no
+  check_mode: false
   tags:
     - pi_get_rasp_facts
 
@@ -184,7 +184,7 @@
   shell: "raspi-config nonint get_config_var gpu_mem_1024 /boot/config.txt"
   register: raspi_gpu_mem_1024
   changed_when: false
-  check_mode: no
+  check_mode: false
   tags:
     - pi_get_rasp_facts
 
@@ -192,7 +192,7 @@
   shell: "parted /dev/mmcblk0 -ms unit s p | tail -n1 | awk -F':' '{ print $3 + 0 }'"
   register: raspi_last_alloced_sector
   changed_when: false
-  check_mode: no
+  check_mode: false
   tags:
     - pi_get_rasp_facts
 
@@ -200,7 +200,7 @@
   command: awk '/^Revision/ {print $3}' /proc/cpuinfo
   register: raspi_rev_check
   changed_when: false
-  check_mode: no
+  check_mode: false
   tags:
     - pi_get_rasp_facts
     - motd
@@ -230,14 +230,14 @@
     raspi_gpu_mem_256: "{{ raspi_gpu_mem_256.stdout }}"
     raspi_gpu_mem_512: "{{ raspi_gpu_mem_512.stdout }}"
     raspi_gpu_mem_1024: "{{ raspi_gpu_mem_1024.stdout }}"
-  check_mode: no
+  check_mode: false
   tags:
     - pi_get_rasp_facts
 
 - name: set raspi-config facts (for motd)
   set_fact:
     raspi_rev: "{{ raspi_rev_check.stdout }}"
-  check_mode: no
+  check_mode: false
   tags:
     - pi_get_rasp_facts
     - motd

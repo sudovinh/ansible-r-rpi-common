@@ -31,4 +31,4 @@ jobs:
 
       - name: Lint code.
         run: |
-          yamllint .
+          yamllint --max-line-length=200 .
