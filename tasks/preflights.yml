@@ -4,13 +4,55 @@
     dest=/etc/hosts
     regexp="^127.0.1.1"
     state=absent
+  tags:
+    - pi_preflight
 
 # Set X keyboard layout
 - name: set X11 keyboard layout
   command: "raspi-config nonint do_configure_keyboard {{ xkblayout }}"
   when: "xkblayout|default(false) and linux_xkblayout != xkblayout"
+  tags:
+    - pi_preflight
 
 # Set wifi country
 - name: set wifi country
   command: "raspiconfig nonint do_wifi_country {{ wifi_country }}"
   when: "wifi_country|default(false) and wifi_country != raspi_wifi_country"
+  tags:
+    - pi_preflight
+
+- name: Ensure timezone is set
+  timezone:
+    name: '{{ timezone }}'
+
+- name: Ensure NTP is installed
+  apt:
+    name: ntp
+    state: present
+
+- name: Ensure SSH is running and enabled
+  service:
+    name: ssh
+    state: started
+    enabled: true
+
+- name: enable SSH via raspi-config
+  shell: "raspi-config nonint do_ssh 0"
+  when: not raspi_ssh_enabled
+  register: ssh_task_result
+
+- name: Reboot immediately if there was a change.
+  command: sudo reboot
+  async: 0
+  poll: 0
+  register: reboot_result
+  ignore_errors: true
+  when: ssh_task_result is changed
+
+- name: Wait for the reboot to complete if there was a change.
+  wait_for_connection:
+    connect_timeout: 20
+    sleep: 5
+    delay: 5
+    timeout: 300
+  when: ssh_task_result is changed

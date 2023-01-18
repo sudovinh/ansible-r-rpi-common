@@ -1,16 +1,44 @@
 ---
-- name: Update apt cache and upgrade
+- name: Update apt cache
   apt:
-    update_cache: yes
-    upgrade: yes
+    update_cache: true
+  tags:
+    - pi_update_packages
+
+- name: Upgrade packages
+  become: true
+  apt:
+    upgrade: true
+    autoremove: true
+  register: result
+  tags:
+    - pi_update_packages
+
+- name: Fix broken packages
+  become: true
+  command: apt-get -f install
+  when: result.failed
+  tags:
+    - pi_update_packages
+
+- name: Dist-upgrade packages
+  become: true
+  command: apt-get dist-upgrade
+  when: result.failed
+  tags:
+    - pi_update_packages
 
 - name: Remove useless packages from the cache
   apt:
-    autoclean: yes
+    autoclean: true
+  tags:
+    - pi_update_packages
 
 - name: Remove dependencies that are no longer required
   apt:
-    autoremove: yes
+    autoremove: true
+  tags:
+    - pi_update_packages
 
 # Install required packages
 - name: install packages for Raspberry Pi
@@ -19,6 +47,8 @@
     name: "{{ item }}"
     state: present
   with_items: "{{ required_packages }}"
+  tags:
+    - pi_install_packages
 
 # Uninstall Raspbian bloat
 - name: remove raspbian bloat
@@ -31,9 +61,11 @@
       - libreoffice*
       - scratch
       - minecraft-pi
-      - python-minecraftpi 
+      - python-minecraftpi
       - python3-minecraftpi
       - sonic-pi
       - dillo
       - gpicview
       - penguinspuzzle
+  tags:
+    - pi_remove_bloat

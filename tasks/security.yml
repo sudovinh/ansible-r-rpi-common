@@ -1,66 +1,10 @@
 ---
-#
-# Configure firewall
-#
-# Enable sshd
 - name: disable ssh login for user pi
   lineinfile:
     dest=/etc/ssh/sshd_config
     line="DenyUsers pi"
     state=present
-  when: disable_pi_ssh_login
-
-- name: enable SSH via raspi-config
-  shell: "raspi-config nonint do_ssh 0"
-  when: not raspi_ssh_enabled
-  register: ssh_task_result
-
-- name: Reboot immediately if there was a change.
-  shell: "sleep 5 && reboot"
-  async: 1
-  poll: 0
-  when: ssh_task_result is changed
-
-- name: Wait for the reboot to complete if there was a change.
-  wait_for_connection:
-    connect_timeout: 20
-    sleep: 5
-    delay: 5
-    timeout: 300
-  when: ssh_task_result is changed
-
-- name: allow SSH through UFW
-  ufw:
-    rule: allow
-    port: ssh
-    proto: tcp
-    log: yes
-
-# - name: allow mDNS through UFW
-#   ufw:
-#     rule: allow
-#     to_ip: 224.0.0.251
-#     proto: igmp
-#     log: no
-
-
-# - name: drop multicast without logging
-#   ufw:
-#     rule: deny
-#     to_ip: 224.0.0.1
-#     log: no
-
-- name: set default incoming UFW policy to deny
-  ufw:
-    direction: incoming
-    policy: deny
-
-- name: set default outgoing UFW policy to allow
-  ufw:
-    direction: outgoing
-    policy: allow
-
-- name: enable UFW
-  ufw:
-    state: "enabled"
-    logging: "on"
+  when: disable_pi_user
+  notify: Reboot Pi
+  tags:
+    - disable_pi_user

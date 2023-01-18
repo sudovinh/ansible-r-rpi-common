@@ -1,16 +1,4 @@
 ---
-### Switch to non-default user as soon as possible if possible
-#- name: does primary login user exist?
-#  local_action: "command ssh -q -o ConnectTimeout=3 -l {{ create_users[0].name }} {{ inventory_hostname }} /bin/true"
-#  register: user_exists
-#  ignore_errors: true
-#  changed_when: false
-#
-#- name: switch remote_user if possible
-#  remote_user: "{{ user_exists | success | ternary(omit, create_users[0].name) }}"
-#  command: "/bin/true"
-#  changed_when: false
-
 - name: Create groups
   group:
     name: "{{ item.groupname }}"
@@ -19,6 +7,8 @@
     system: "{{ item.system | default(omit) }}"
   with_items: "{{ users_groups }}"
   when: users_groups is defined
+  tags:
+    - setup_users
 
 - name: Create per-user groups for default users
   group:
@@ -30,59 +20,82 @@
     - "{{ users | default([]) }}"
     - "{{ additionalusers | default([]) }}"
   when: users_per_user_groups == true
-
-- name: Create a directory if it does not exist
-  file:
-    path: '{{ users_default_home }}'
-    state: directory
-    mode: '0755'
+  tags:
+    - setup_users
 
 - name: Create users
   user:
     name: '{{ item.username }}'
-    state: 'present'
-    uid: '{{ item.uid | default(omit) }}'
+    comment: '{{ item.comment | default(omit) }}'
     group: '{{ item.group | default(item.username) }}'
     groups: '{{ item.groups | default("") | join(",") }}'
+    uid: '{{ item.uid | default(omit) }}'
+    state: 'present'
     shell: '{{ item.shell | default(users_default_shell) }}'
-    comment: '{{ item.comment | default(omit) }}'
     password: '{{ item.password | default(users_default_password) }}'
     home: '{{ item.home | default(users_default_home+"/"+item.username) }}'
-    createhome: '{{ item.createhome | default(users_create_homedirs) }}'
-    system: '{{ item.system | default(omit) }}'
-    append: yes
-    move_home: yes
-    remove: '{{ item.remove | default("no") }}'
   with_items:
     - "{{ users | default([]) }}"
     - "{{ additionalusers | default([]) }}"
+  tags:
+    - setup_users
+
+- name: set ownership of directory to new user
+  file:
+    path: '{{ users_default_home+"/"+item.username }}'
+    owner: '{{ item.username }}'
+    group: '{{ item.username }}'
+    state: directory
+  with_items:
+    - "{{ users | default([]) }}"
+    - "{{ additionalusers | default([]) }}"
+  tags:
+    - setup_users
 
 - name: Add admin users to admin group
   user:
     name: '{{ item.username }}'
     state: 'present'
     groups: '{{ users_admin_group }}'
-    append: yes
-    createhome: no
+    append: true
+    createhome: false
   with_items:
     - "{{ users | default([]) }}"
     - "{{ additionalusers | default([]) }}"
   when: >
     item.is_admin is defined and
     item.is_admin == true
-  
-- name: SSH keys
-  authorized_key: >
-    user='{{ item.username }}'
-    key='{{ item.sshkey | default("none") }}'
+  tags:
+    - setup_users
+
+- name: Create .ssh directory
+  file:
+    path: "/home/{{ item.username }}/.ssh"
+    state: directory
+    mode: 0700
   with_items:
     - "{{ users | default([]) }}"
     - "{{ additionalusers | default([]) }}"
-  when: >
-    not ( item.sshkey|default('none') == 'none' )
-  
+  when: item.username is defined
+  tags:
+    - setup_users
+
+- name: SSH keys
+  authorized_key:
+    user='{{ item.username }}'
+    key='{{ item.pubkey | default("none") }}'
+  with_items:
+    - "{{ users | default([]) }}"
+    - "{{ additionalusers | default([]) }}"
+  when:
+    item.pubkey is defined
+  tags:
+    - setup_users
+
 - name: Sudo installed
   apt: name=sudo state=present
+  tags:
+    - setup_users
 
 - name: Admin sudoers
   template:
@@ -92,33 +105,18 @@
     group: 'root'
     mode: '0440'
   when: users_manage_admin_sudoers == true
-
-# - name: create users
-#   user: name="{{ item.name }}"
-#         comment="{{ item.comment }}"
-#         group="{{ item.group }}"
-#         groups="{{ item.groups }}"
-#         uid="{{ item.uid }}"
-#         state=present
-#         shell=/bin/bash
-#   with_items: "{{ create_users }}"
-#   when: create_users is defined
-#   tags: [ 'users' ]
-
-# - name: install ssh pubkeys for new users
-#   authorized_key: user="{{ item.name }}"
-#                   key="{{ item.pubkey }}"
-#                   state=present
-#   with_items: "{{ create_users }}"
-#   when: create_users is defined
-#   tags: [ 'users' ]
+  tags:
+    - setup_users
 
 ### disable the 'pi' user's ability to login in with password
 ### if you enable this, you may lock yourself out--you must make sure another
 ### user has been added with both sudo privileges and a password by which
 ### sudo can be authenticated
-#- name: disable 'pi' user
-#  user: name="pi"
-#        password="*"
-#        state=present
-#  tags: [ 'users' ]
+- name: disable 'pi' user
+  user: name="pi"
+        password="*"
+        state=present
+  when: disable_pi_user
+  notify: Reboot Pi
+  tags:
+    - disable_pi_user

@@ -1,6 +1,20 @@
 # r-rpi-common
 
+[![CI](https://github.com/sudovinh/ansible-r-rpi-common/actions/workflows/ansible-lints.yml/badge.svg?branch=main)](https://github.com/sudovinh/ansible-r-rpi-common/actions/workflows/ansible-lints.yml)
+
 Role for initial Raspberry Pi setup
+
+- set timezone
+- enable ntp and ssh
+- install packages and remove bloatware packages
+- setup new users/admins
+- configure raspberry default configs
+- setup raspberry motd
+- disable pi ssh/login
+
+based of from:
+https://github.com/glennklockwood/rpi-ansible
+https://github.com/willshersystems/ansible-users
 
 ### Requirements
 ------------
@@ -25,7 +39,7 @@ All variables which can be overridden are stored in [defaults/main.yml](defaults
 | `enable_serial_hw` | `false`  | enable serial hw |
 | `enable_onewire` | `false`  | enable onewire communication bus |
 | `enable_rgpio` | `false`  | enable general-purpose Input/Output pins |
-| `disable_pi_ssh_login` | `false`  | disable default pi ssh login (recommend to enable gui or have another user created before enabling it) |
+| `disable_pi_user` | `false`  | disable default pi ssh login (recommend to enable gui or have another user created before enabling it) and pi login|
 | `users_default_shell` | `/bin/bash` | user's default shell |
 | `users_create_homedirs` | `false` | Create home dirs for new user |
 | `users_default_home` | `/user` | Create parent home directory |
@@ -39,27 +53,48 @@ All variables which can be overridden are stored in [defaults/main.yml](defaults
 ### Example
 -----------
 ```
-users:
-- username: rickmorty
-  comment: rick morty
-  is_admin: true
-  sshkey: {SSH PUB KEY}
-  uid: 1024
-  gid: 1024
+# Rasp Common Variables
+enable_gui: False
+enable_autologin: False
+enable_bootwait: True
+enable_bootsplash: False
+enable_camera: False
+enable_vnc: False
+enable_spi: False
+enable_i2c: False
+enable_serial: False
+enable_serial_hw: False
+enable_onewire: False
+enable_rgpio: False
+disable_pi_user: False # run first then enable after verifying new user login/ssh works
+users_manage_admin_sudoers: True
 
-enable_gui: false
-enable_autologin: false
-enable_bootwait: true
-enable_bootsplash: false
-enable_camera: false
-enable_vnc: false
-enable_spi: false
-enable_i2c: false
-enable_serial: false
-enable_serial_hw: false
-enable_onewire: false
-enable_rgpio: false
-disable_pi_ssh_login: false
+# User Variables
+users:
+- username: {username}
+  comment: main pi user
+  is_admin: yes
+  groups: 
+    - '{{ users_admin_group }}' # add to `sudo` group
+  pubkey: {ssh public key}
+  uid: {user id}
+  gid: {group id}
+  system: true
+  password: !vault |
+          {use ansible-vault to encrypt your user password}
+users_groups:
+  - groupname: logger
+    gid: 150
+    system: true
+
+additionalusers:
+  - username: svc-logger
+    comment: for logging
+    uid: 151
+    gid: 151
+    home: /var/lib/logger
+    shell: /bin/bash
+    system: true
 ```
 
 License
