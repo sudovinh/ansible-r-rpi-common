@@ -15,6 +15,7 @@ required_packages:
   - python3-setuptools
   - libffi-dev
   - libssl-dev
+  - ntp
 country_locale: "en_US.UTF-8"
 enable_gui: false
 enable_autologin: false
@@ -28,7 +29,8 @@ enable_serial: false
 enable_serial_hw: false
 enable_onewire: false
 enable_rgpio: false
-disable_pi_ssh_login: false
+disable_pi_user: false
+timezone: America/Los_Angeles
 
 ## Users variables
 # The default shell for a user if none is specified
@@ -37,9 +39,9 @@ users_default_shell: /bin/bash
 # directories in some other way.
 users_create_homedirs: false
 # Create parent home directory and put home dirs here
-users_default_home: '/user'
+users_default_home: '/homes'
 # Create groups for users with the same name as the users group
-users_per_user_groups: false
+users_per_user_groups: True
 # If true, create a sudoers entry for the admin group allow root access.
 users_manage_admin_sudoers: false
 # If true, assume the admin group is also used to run Ansible jobs. This
@@ -47,7 +49,7 @@ users_manage_admin_sudoers: false
 users_admin_uses_ansible: false
 # If set to true, require a password for sudo, false to not require a password
 users_admin_sudo_password: false
-users_admin_group: sudo
+users_admin_group: 'sudo'
 users_default_password: '!'
 # Lists of users to create and delete
 users: []
@@ -61,3 +63,4 @@ additionalusers: []
 #   - some_other_username
 removed_users: []
 users_groups: []
+
