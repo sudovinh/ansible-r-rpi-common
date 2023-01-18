@@ -34,7 +34,7 @@
   service:
     name: ssh
     state: started
-    enabled: yes
+    enabled: true
 
 - name: enable SSH via raspi-config
   shell: "raspi-config nonint do_ssh 0"

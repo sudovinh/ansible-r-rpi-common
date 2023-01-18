@@ -1,15 +1,15 @@
 ---
 - name: Update apt cache
   apt:
-    update_cache: yes
+    update_cache: true
   tags:
     - pi_update_packages
 
 - name: Upgrade packages
   become: true
   apt:
-    upgrade: yes
-    autoremove: yes
+    upgrade: true
+    autoremove: true
   register: result
   tags:
     - pi_update_packages
@@ -30,13 +30,13 @@
 
 - name: Remove useless packages from the cache
   apt:
-    autoclean: yes
+    autoclean: true
   tags:
     - pi_update_packages
 
 - name: Remove dependencies that are no longer required
   apt:
-    autoremove: yes
+    autoremove: true
   tags:
     - pi_update_packages
 
@@ -61,7 +61,7 @@
       - libreoffice*
       - scratch
       - minecraft-pi
-      - python-minecraftpi 
+      - python-minecraftpi
       - python3-minecraftpi
       - sonic-pi
       - dillo

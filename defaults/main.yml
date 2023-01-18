@@ -41,7 +41,7 @@ users_create_homedirs: false
 # Create parent home directory and put home dirs here
 users_default_home: '/homes'
 # Create groups for users with the same name as the users group
-users_per_user_groups: True
+users_per_user_groups: true
 # If true, create a sudoers entry for the admin group allow root access.
 users_manage_admin_sudoers: false
 # If true, assume the admin group is also used to run Ansible jobs. This
@@ -55,7 +55,8 @@ users_default_password: '!'
 users: []
 users_groups_to_remove: []
 user_ssh_keys: []
-# if this list is defined, then it will need to have elements similar to users, including name, comment, is_admin and ssh_key
+# if this list is defined, then it will need to have elements similar to users,
+# including name, comment, is_admin and ssh_key
 additionalusers: []
 # if this list is defined, then it expects just a list of names. i.e:
 # removed_users:
@@ -63,4 +64,3 @@ additionalusers: []
 #   - some_other_username
 removed_users: []
 users_groups: []
-

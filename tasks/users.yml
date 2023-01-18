@@ -57,8 +57,8 @@
     name: '{{ item.username }}'
     state: 'present'
     groups: '{{ users_admin_group }}'
-    append: yes
-    createhome: no
+    append: true
+    createhome: false
   with_items:
     - "{{ users | default([]) }}"
     - "{{ additionalusers | default([]) }}"
@@ -84,7 +84,6 @@
   authorized_key:
     user='{{ item.username }}'
     key='{{ item.pubkey | default("none") }}'
-    #path="/home/{{ item.username }}/.ssh/authorized_keys"
   with_items:
     - "{{ users | default([]) }}"
     - "{{ additionalusers | default([]) }}"

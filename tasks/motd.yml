@@ -6,11 +6,11 @@
     - motd
 
 - name: Install motd
-  template: 
+  template:
     src: motd
     dest: /etc/motd
     owner: root
     group: root
     mode: "0644"
   tags:
-    - motd 
+    - motd

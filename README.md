@@ -1,5 +1,7 @@
 # r-rpi-common
 
+[![CI](https://github.com/sudovinh/ansible-r-rpi-common/actions/workflows/ansible-lints.yml/badge.svg?branch=main)](https://github.com/sudovinh/ansible-r-rpi-common/actions/workflows/ansible-lints.yml)
+
 Role for initial Raspberry Pi setup
 
 - set timezone
