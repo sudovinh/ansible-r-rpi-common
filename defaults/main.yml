@@ -39,7 +39,7 @@ users_default_shell: /bin/bash
 # directories in some other way.
 users_create_homedirs: false
 # Create parent home directory and put home dirs here
-users_default_home: '/homes'
+users_default_home: '/home'
 # Create groups for users with the same name as the users group
 users_per_user_groups: true
 # If true, create a sudoers entry for the admin group allow root access.
