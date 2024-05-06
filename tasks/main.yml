@@ -1,9 +1,9 @@
 ---
 # tasks file for ansible-r-rpi-common
-- include: get_rasp_facts.yml
-- include: preflights.yml
-- include: packages.yml
-- include: users.yml
-- include: rasp_configs.yml
-- include: motd.yml
-- include: security.yml
+- include_tasks: get_rasp_facts.yml
+- include_tasks: preflights.yml
+- include_tasks: packages.yml
+- include_tasks: users.yml
+- include_tasks: rasp_configs.yml
+- include_tasks: motd.yml
+- include_tasks: security.yml
